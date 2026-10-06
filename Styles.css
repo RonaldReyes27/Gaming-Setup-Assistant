@@ -1,15 +1,11 @@
 /* ==========================================================
-   Gaming Setup Assistant · estilos
-   ORDEN DEL ARCHIVO (de lo general a lo específico):
+   Gaming Setup Assistant · Estilos
+   ORDEN DEL ARCHIVO:
      1. Variables        4. Navegación y hero
      2. Base             5. Tarjetas y formulario
-     3. Layout           6. Resultado
-                         7. Responsive
-   Reglas de la Clase 03 aplicadas:
-   - Espaciado de 8 puntos (--s1 … --s7)
-   - Escala tipográfica x1.25 desde 16px
-   - 2 fuentes: Space Grotesk (títulos) + Inter (cuerpo)
-   - Color 60-30-10 y contraste mínimo 4.5:1
+     3. Layout           6. Autocompletado & Inputs
+                         7. Resultado, FPS Grid & Cuello de Botella
+                         8. Responsive
    ========================================================== */
 
 /* ---------- 1. VARIABLES ---------- */
@@ -17,18 +13,24 @@
   /* 60% neutro (fondo) */
   --bg:#10132E;
   /* 30% secundario (tarjetas) */
-  --surface:#1A1F45; --surface-2:#242A5C;
+  --surface:#1A1F45; 
+  --surface-2:#242A5C;
+  --surface-3:#2C336D;
   /* texto */
-  --ink:#EDEEF7; --muted:#9DA2C4;
-  /* 10% acento: solo botón y detalles clave */
+  --ink:#EDEEF7; 
+  --muted:#9DA2C4;
+  /* 10% acento */
   --cyan:#35D6C0;
-  /* estados: siempre con icono + texto */
-  --ok:#57E389; --warn:#F6B44D; --bad:#FF7B7B;
+  --cyan-glow:rgba(53,214,192,.25);
+  /* estados */
+  --ok:#57E389; 
+  --warn:#F6B44D; 
+  --bad:#FF7B7B;
   --line:rgba(255,255,255,.09);
   /* espaciado (escala de 8) */
   --s1:4px; --s2:8px; --s3:16px; --s4:24px; --s5:32px; --s6:48px;
-  /* tamaños de texto (x1.25) */
-  --fs-s:.8rem; --fs-0:1rem; --fs-1:1.25rem; --fs-2:1.5625rem; --fs-5:3.052rem;
+  /* tamaños de texto */
+  --fs-s:.85rem; --fs-0:1rem; --fs-1:1.25rem; --fs-2:1.5625rem; --fs-5:3.052rem;
 }
 
 /* ---------- 2. BASE ---------- */
@@ -40,76 +42,151 @@ body{
     radial-gradient(1000px 600px at 85% -10%,rgba(53,214,192,.10),transparent 60%),
     radial-gradient(900px 600px at -5% 20%,rgba(183,168,255,.08),transparent 55%),
     var(--bg);
+  min-height:100vh;
 }
-h1,h2,h3{font-family:'Space Grotesk','Inter',sans-serif; letter-spacing:-.015em; line-height:1.1; margin:0}
+h1,h2,h3,h4{font-family:'Space Grotesk','Inter',sans-serif; letter-spacing:-.015em; line-height:1.15; margin:0}
 :focus-visible{outline:2px solid var(--cyan); outline-offset:3px; border-radius:6px}
 
 /* ---------- 3. LAYOUT ---------- */
-.container{max-width:1000px; margin:0 auto; padding:0 var(--s4)}
-/* retícula de 12 columnas */
+.container{max-width:1080px; margin:0 auto; padding:0 var(--s4)}
 .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:var(--s4); padding-bottom:var(--s5)}
 .form{grid-column:span 5}
 .result{grid-column:span 7}
 
 /* ---------- 4. NAVEGACIÓN Y HERO ---------- */
-.nav{border-bottom:1px solid var(--line); background:rgba(16,19,46,.85)}
+.nav{border-bottom:1px solid var(--line); background:rgba(16,19,46,.85); backdrop-filter:blur(8px); position:sticky; top:0; z-index:100}
 .nav-inner{padding-top:var(--s3); padding-bottom:var(--s3)}
-.brand{display:flex; align-items:center; gap:var(--s2); font-family:'Space Grotesk'; font-weight:700}
+.brand{display:flex; align-items:center; gap:var(--s2); font-family:'Space Grotesk'; font-weight:700; font-size:1.1rem}
 .dot{width:10px; height:10px; border-radius:50%; background:var(--cyan); box-shadow:0 0 0 4px rgba(53,214,192,.16)}
 
-.hero{padding:var(--s6) 0 var(--s5)}
-.kicker{margin:0 0 var(--s2); font-size:var(--fs-s); font-weight:600; color:var(--cyan)}
-.hero h1{font-size:clamp(2rem,6vw,var(--fs-5)); font-weight:700; max-width:16ch; margin-bottom:var(--s3)}
+.hero{padding:var(--s5) 0 var(--s4)}
+.kicker{margin:0 0 var(--s2); font-size:var(--fs-s); font-weight:600; color:var(--cyan); letter-spacing:.05em; text-transform:uppercase}
+.hero h1{font-size:clamp(2rem,5vw,var(--fs-5)); font-weight:700; max-width:18ch; margin-bottom:var(--s2)}
 .hero h1 em{font-style:normal; color:var(--cyan)}
-.lead{margin:0; font-size:var(--fs-1); color:var(--muted); max-width:60ch}
+.lead{margin:0; font-size:var(--fs-1); color:var(--muted); max-width:65ch}
 
 /* ---------- 5. TARJETAS Y FORMULARIO ---------- */
 .card{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:var(--s4); box-shadow:0 24px 60px -30px rgba(0,0,0,.7)}
 .card h2{font-size:var(--fs-2); margin-bottom:var(--s3)}
 
 label{display:block; margin:var(--s3) 0 var(--s2); font-size:var(--fs-s); font-weight:600; color:var(--muted)}
-input{width:100%; padding:var(--s3); border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font:inherit}
+input, select{
+  width:100%; padding:var(--s3); border-radius:8px; border:1px solid var(--line);
+  background:var(--bg); color:var(--ink); font:inherit; transition:border-color .2s, box-shadow .2s;
+}
+input:focus, select:focus{
+  border-color:var(--cyan);
+  box-shadow:0 0 0 3px var(--cyan-glow);
+  outline:none;
+}
 input::placeholder{color:var(--muted)}
-.hint{margin:var(--s2) 0 0; font-size:var(--fs-s); color:var(--muted)}
-.detected{margin:0; padding:var(--s3); border-radius:8px; background:var(--bg); font-size:var(--fs-s); color:var(--muted)}
+select.select-input{cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%279DA2C4' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px}
+.hint{margin:var(--s1) 0 0; font-size:var(--fs-s); color:var(--muted)}
+.detected{margin:0; padding:var(--s3); border-radius:8px; background:var(--bg); font-size:var(--fs-s); color:var(--muted); border:1px dashed var(--line)}
 
-/* botón principal = único acento fuerte (texto oscuro sobre cian) */
-.btn{width:100%; margin-top:var(--s4); padding:var(--s3); border:none; border-radius:8px; cursor:pointer;
-  background:var(--cyan); color:var(--bg); font:inherit; font-weight:700; transition:transform .15s, filter .15s}
-.btn:hover{filter:brightness(1.1); transform:translateY(-1px)}
-.btn:disabled{background:var(--surface-2); color:var(--muted); cursor:wait; transform:none}
-/* botón secundario */
-.btn-ghost{margin-top:var(--s2); background:transparent; color:var(--ink); border:1px solid var(--line)}
+.hidden{display:none !important}
 
-/* ---------- 6. RESULTADO ---------- */
-.placeholder{margin:0; color:var(--muted)}
-.msg{margin:0; color:var(--bad)}
-.source{font-size:var(--fs-s); color:var(--muted)}
+.btn{
+  width:100%; margin-top:var(--s4); padding:var(--s3); border:none; border-radius:8px; cursor:pointer;
+  background:var(--cyan); color:var(--bg); font:inherit; font-weight:700; transition:transform .15s, filter .15s, box-shadow .15s;
+  box-shadow:0 4px 14px rgba(53,214,192,.3);
+}
+.btn:hover{filter:brightness(1.1); transform:translateY(-1px); box-shadow:0 6px 20px rgba(53,214,192,.4)}
+.btn:disabled{background:var(--surface-2); color:var(--muted); cursor:wait; transform:none; box-shadow:none}
+.btn-ghost{margin-top:var(--s2); background:transparent; color:var(--ink); border:1px solid var(--line); box-shadow:none}
+.btn-ghost:hover{background:var(--surface-2); filter:none}
 
-.game-head{display:flex; align-items:center; gap:var(--s3); margin-bottom:var(--s4)}
-.game-head img{width:96px; height:56px; object-fit:cover; border-radius:8px}
-.game-head h2{margin:0; text-transform:uppercase; letter-spacing:.04em}
+/* ---------- 6. AUTOCOMPLETADO EN TIEMPO REAL ---------- */
+.search-wrapper{position:relative}
+.input-with-autocomplete{position:relative}
+.autocomplete-dropdown{
+  position:absolute; top:calc(100% + 4px); left:0; right:0;
+  background:var(--surface-2); border:1px solid var(--line);
+  border-radius:8px; max-height:280px; overflow-y:auto; z-index:50;
+  box-shadow:0 12px 32px rgba(0,0,0,.6);
+}
+.autocomplete-item{
+  display:flex; align-items:center; gap:var(--s3); padding:var(--s2) var(--s3);
+  cursor:pointer; border-bottom:1px solid rgba(255,255,255,.04); transition:background .15s;
+}
+.autocomplete-item:last-child{border-bottom:none}
+.autocomplete-item:hover, .autocomplete-item.active{background:var(--surface-3)}
+.autocomplete-item img{width:48px; height:32px; object-fit:cover; border-radius:4px; flex-shrink:0; background:var(--bg)}
+.autocomplete-item .item-info{display:flex; flex-col; gap:2px; overflow:hidden}
+.autocomplete-item .item-title{font-weight:600; font-size:var(--fs-s); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.autocomplete-item .item-sub{font-size:.75rem; color:var(--muted)}
 
+/* ---------- 7. RESULTADO, FPS GRID & CUELLO DE BOTELLA ---------- */
+.placeholder-box{text-align:center; padding:var(--s5) var(--s3); color:var(--muted)}
+.placeholder-icon{font-size:3rem; margin-bottom:var(--s2)}
+.placeholder-box h3{color:var(--ink); font-size:var(--fs-1); margin-bottom:var(--s2)}
+
+.msg{margin:0; padding:var(--s3); border-radius:8px; background:rgba(255,123,123,.1); border:1px solid var(--bad); color:var(--bad)}
+
+.game-head{display:flex; align-items:center; gap:var(--s3); margin-bottom:var(--s4); padding-bottom:var(--s3); border-bottom:1px solid var(--line)}
+.game-head img{width:110px; height:62px; object-fit:cover; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.game-head h2{margin:0; font-size:1.4rem; letter-spacing:-.01em}
+.source{font-size:var(--fs-s); color:var(--muted); display:block; margin-top:2px}
+
+/* Badge de Veredicto */
+.verdict-banner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:var(--s3); border-radius:10px; margin-bottom:var(--s4);
+  font-weight:700; font-size:1.05rem;
+}
+.verdict-banner.st-ok{background:rgba(87,227,137,.12); border:1px solid var(--ok); color:var(--ok)}
+.verdict-banner.st-min{background:rgba(246,180,77,.12); border:1px solid var(--warn); color:var(--warn)}
+.verdict-banner.st-bad{background:rgba(255,123,123,.12); border:1px solid var(--bad); color:var(--bad)}
+
+/* Matriz de FPS */
+.fps-section-title{font-size:var(--fs-0); font-weight:700; margin-bottom:var(--s2); color:var(--ink)}
+.fps-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:var(--s2); margin-bottom:var(--s4)}
+.fps-card{
+  background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:var(--s2) var(--s3);
+  text-align:center; transition:border-color .2s;
+}
+.fps-card.highlight{border-color:var(--cyan)}
+.fps-resolution{font-size:.75rem; color:var(--muted); font-weight:600; text-transform:uppercase}
+.fps-value{font-family:'Space Grotesk'; font-size:1.5rem; font-weight:700; margin:2px 0}
+.fps-card.st-ok .fps-value{color:var(--ok)}
+.fps-card.st-min .fps-value{color:var(--warn)}
+.fps-card.st-bad .fps-value{color:var(--bad)}
+.fps-label-sub{font-size:.7rem; color:var(--muted)}
+
+/* Cuello de Botella (Bottleneck Card) */
+.bottleneck-card{
+  background:var(--surface-2); border:1px solid var(--line); border-radius:12px;
+  padding:var(--s3); margin-bottom:var(--s4);
+}
+.bottleneck-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--s2)}
+.bottleneck-title{font-weight:700; font-size:var(--fs-0); display:flex; align-items:center; gap:var(--s2)}
+.bottleneck-badge{padding:2px 8px; border-radius:12px; font-size:.75rem; font-weight:700}
+.bottleneck-badge.bad{background:rgba(255,123,123,.2); color:var(--bad); border:1px solid var(--bad)}
+.bottleneck-badge.warn{background:rgba(246,180,77,.2); color:var(--warn); border:1px solid var(--warn)}
+.bottleneck-badge.ok{background:rgba(87,227,137,.2); color:var(--ok); border:1px solid var(--ok)}
+
+.bottleneck-bar-container{height:10px; background:var(--bg); border-radius:6px; overflow:hidden; position:relative; margin:var(--s2) 0}
+.bottleneck-fill{height:100%; border-radius:6px; transition:width .5s}
+.bottleneck-desc{font-size:var(--fs-s); color:var(--muted); margin:0}
+
+/* Componentes individuales */
 .rows{display:grid; gap:var(--s3); margin-bottom:var(--s4)}
-.row{display:grid; grid-template-columns:48px 1fr; gap:var(--s3); padding:var(--s3); border-radius:8px; background:var(--bg)}
-.row .icon{font-size:var(--fs-2); line-height:1}
+.row{display:grid; grid-template-columns:40px 1fr; gap:var(--s3); padding:var(--s3); border-radius:10px; background:var(--bg); border:1px solid var(--line)}
+.row .icon{font-size:1.4rem; line-height:1}
 .row h3{font-family:'Inter'; font-size:var(--fs-0); font-weight:700}
 .row p{margin:var(--s1) 0 0; font-size:var(--fs-s); color:var(--muted)}
 .st-ok{color:var(--ok)} .st-min{color:var(--warn)} .st-bad{color:var(--bad)} .st-unk{color:var(--muted)}
 
-.perf-label{display:flex; justify-content:space-between; font-weight:600; margin-bottom:var(--s2)}
-.bar{height:12px; border-radius:8px; background:var(--surface-2); overflow:hidden}
-.bar span{display:block; height:100%; border-radius:8px; transition:width .5s}
-.bar .ok{background:var(--ok)} .bar .min{background:var(--warn)} .bar .bad{background:var(--bad)}
+/* Consejos de optimización */
+.tips-card{background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:var(--s3)}
+.tips-card h4{font-size:var(--fs-s); font-weight:700; color:var(--cyan); margin-bottom:var(--s2); text-transform:uppercase; letter-spacing:.04em}
+.tips-list{margin:0; padding-left:var(--s3); font-size:var(--fs-s); color:var(--muted)}
+.tips-list li{margin-bottom:var(--s1)}
 
-.facts{display:grid; grid-template-columns:1fr 1fr; gap:var(--s3); margin-top:var(--s4)}
-.fact{padding:var(--s3); border-radius:8px; background:var(--bg)}
-.fact span{display:block; font-size:var(--fs-s); color:var(--muted)}
-.fact b{font-family:'Space Grotesk'; font-size:var(--fs-2)}
+.foot{padding-top:var(--s4); padding-bottom:var(--s6); font-size:var(--fs-s); color:var(--muted); border-top:1px solid var(--line)}
 
-.foot{padding-bottom:var(--s6); font-size:var(--fs-s); color:var(--muted)}
-
-/* ---------- 7. RESPONSIVE ---------- */
-@media (max-width:800px){
+/* ---------- 8. RESPONSIVE ---------- */
+@media (max-width:850px){
   .form, .result{grid-column:span 12}
+  .fps-grid{grid-template-columns:repeat(2,1fr)}
 }

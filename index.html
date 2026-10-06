@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gaming Setup Assistant</title>
-<!-- Regla de la clase: 2 fuentes (títulos: Space Grotesk, cuerpo: Inter) -->
+<title>Gaming Setup Assistant · Compatibilidad & FPS</title>
+<!-- Fuentes: Space Grotesk (títulos) + Inter (cuerpo) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="Styles.css">
 </head>
 <body>
 
-<!-- Marca arriba a la izquierda (lo primero que lee el ojo) -->
 <header class="nav">
   <div class="container nav-inner">
     <span class="brand"><span class="dot"></span>Gaming Setup Assistant</span>
@@ -22,49 +21,128 @@
 <main class="container">
 
   <section class="hero">
-    <p class="kicker">🖥️ Compatibilidad de juegos</p>
+    <p class="kicker">🖥️ Análisis de Hardware & Estimación de FPS</p>
     <h1>¿Tu PC puede correr <em>este juego</em>?</h1>
-    <p class="lead">La app detecta tu equipo, consulta los requisitos oficiales del juego y los compara.</p>
+    <p class="lead">Detecta los componentes de tu equipo, busca cualquier juego y calcula a cuántos FPS correrá con análisis de cuello de botella.</p>
   </section>
 
   <!-- Retícula de 12 columnas: formulario (5) + resultado (7) -->
   <div class="grid">
 
-    <form class="card form" id="form" novalidate>
+    <form class="card form" id="form" novalidate autocomplete="off">
       <h2>Tu equipo</h2>
-      <!-- Aquí JavaScript escribe lo que detectó del navegador -->
+      <!-- Detección automática por JavaScript -->
       <p class="detected" id="detected">Detectando tu equipo…</p>
 
-      <label for="gpu">GPU (detectada automáticamente)</label>
-      <input id="gpu" type="text" placeholder="Ej: RTX 3050 Ti" autocomplete="off">
-      <p class="hint">Si tienes tarjeta dedicada y aparece la integrada, corrígela.</p>
+      <label for="gpu">GPU (Tarjeta de video)</label>
+      <input id="gpu" type="text" placeholder="Ej: RTX 3060, GTX 1660 Super, RX 6700 XT" list="gpu-list" autocomplete="off">
+      <datalist id="gpu-list">
+        <option value="NVIDIA GeForce RTX 4090">
+        <option value="NVIDIA GeForce RTX 4080 Super">
+        <option value="NVIDIA GeForce RTX 4070 Ti Super">
+        <option value="NVIDIA GeForce RTX 4070 Super">
+        <option value="NVIDIA GeForce RTX 4070">
+        <option value="NVIDIA GeForce RTX 4060 Ti">
+        <option value="NVIDIA GeForce RTX 4060">
+        <option value="NVIDIA GeForce RTX 3090">
+        <option value="NVIDIA GeForce RTX 3080">
+        <option value="NVIDIA GeForce RTX 3070 Ti">
+        <option value="NVIDIA GeForce RTX 3070">
+        <option value="NVIDIA GeForce RTX 3060 Ti">
+        <option value="NVIDIA GeForce RTX 3060">
+        <option value="NVIDIA GeForce RTX 3050">
+        <option value="NVIDIA GeForce RTX 2060">
+        <option value="NVIDIA GeForce GTX 1660 Super">
+        <option value="NVIDIA GeForce GTX 1650">
+        <option value="NVIDIA GeForce GTX 1080 Ti">
+        <option value="NVIDIA GeForce GTX 1070">
+        <option value="NVIDIA GeForce GTX 1060">
+        <option value="NVIDIA GeForce GTX 1050 Ti">
+        <option value="NVIDIA GeForce GTX 750 Ti">
+        <option value="AMD Radeon RX 7900 XTX">
+        <option value="AMD Radeon RX 7800 XT">
+        <option value="AMD Radeon RX 7700 XT">
+        <option value="AMD Radeon RX 7600">
+        <option value="AMD Radeon RX 6800 XT">
+        <option value="AMD Radeon RX 6700 XT">
+        <option value="AMD Radeon RX 6600">
+        <option value="AMD Radeon RX 580">
+        <option value="AMD Radeon RX 570">
+        <option value="Intel Arc A770">
+        <option value="Intel Arc A750">
+        <option value="Intel Iris Xe Graphics">
+        <option value="Intel UHD Graphics 770">
+      </datalist>
+      <p class="hint">Si la GPU detectada es genérica o integrada, ajusta tu modelo dedicado.</p>
 
-      <label for="cpu">CPU (escríbela: el navegador no puede leerla)</label>
-      <input id="cpu" type="text" placeholder="Ej: Ryzen 5 5600H" autocomplete="off">
+      <label for="cpu">CPU (Procesador)</label>
+      <input id="cpu" type="text" placeholder="Ej: Ryzen 5 5600X, Core i5-12400F" list="cpu-list" autocomplete="off">
+      <datalist id="cpu-list">
+        <option value="AMD Ryzen 7 7800X3D">
+        <option value="AMD Ryzen 7 5800X3D">
+        <option value="AMD Ryzen 5 7600X">
+        <option value="AMD Ryzen 5 5600X">
+        <option value="AMD Ryzen 5 5600G">
+        <option value="AMD Ryzen 5 3600">
+        <option value="AMD Ryzen 5 2600">
+        <option value="AMD Ryzen 3 3200G">
+        <option value="Intel Core i9-14900K">
+        <option value="Intel Core i7-13700K">
+        <option value="Intel Core i5-13600K">
+        <option value="Intel Core i5-13400F">
+        <option value="Intel Core i5-12400F">
+        <option value="Intel Core i5-10400F">
+        <option value="Intel Core i7-10700K">
+        <option value="Intel Core i7-9700K">
+        <option value="Intel Core i7-8700K">
+        <option value="Intel Core i5-9400F">
+        <option value="Intel Core i5-8400">
+        <option value="Intel Core i7-4790K">
+        <option value="Intel Core i5-4590">
+      </datalist>
 
-      <label for="ram">RAM en GB (el navegador reporta máximo 8)</label>
+      <label for="ram">Memoria RAM (GB)</label>
       <input id="ram" type="number" min="1" max="256" placeholder="Ej: 16">
 
-      <label for="game">Juego</label>
-      <input id="game" type="text" placeholder="Ej: Fortnite" autocomplete="off">
+      <!-- Campo de juego con autocompletado en tiempo real -->
+      <div class="search-wrapper">
+        <label for="game">Juego a consultar</label>
+        <div class="input-with-autocomplete">
+          <input id="game" type="text" placeholder="Escribe para buscar... (ej: Fortnite, Cyberpunk)" autocomplete="off">
+          <div id="autocomplete-list" class="autocomplete-dropdown hidden"></div>
+        </div>
+        <p class="hint">Escribe 2 letras para ver sugerencias con carátula en tiempo real.</p>
+      </div>
 
-      <label for="apikey">Clave de API de RAWG (gratis en rawg.io/apidocs)</label>
-      <input id="apikey" type="password" placeholder="Pega tu clave aquí" autocomplete="off">
+      <label for="api-source">Fuente de datos de requisitos</label>
+      <select id="api-source" class="select-input">
+        <option value="steam">Steam Store API (Gratis / Sin clave)</option>
+        <option value="rawg">RAWG API (Requiere clave)</option>
+      </select>
 
-      <button class="btn" type="submit" id="go">Analizar mi PC</button>
-      <button class="btn btn-ghost" type="button" id="redetect">Detectar mi PC de nuevo</button>
+      <div id="rawg-key-container" class="hidden">
+        <label for="apikey">Clave de API de RAWG</label>
+        <input id="apikey" type="password" placeholder="Pega tu clave gratuita de RAWG aquí" autocomplete="off">
+      </div>
+
+      <button class="btn" type="submit" id="go">⚡ Analizar mi PC y calcular FPS</button>
+      <button class="btn btn-ghost" type="button" id="redetect">🔄 Detectar mi PC de nuevo</button>
     </form>
 
-    <!-- aria-live: los lectores de pantalla anuncian el resultado -->
+    <!-- Sección de Resultados -->
     <section class="card result" id="result" aria-live="polite">
-      <p class="placeholder">Revisa los datos de tu equipo, escribe un juego y pulsa <b>Analizar mi PC</b>.</p>
+      <div class="placeholder-box">
+        <div class="placeholder-icon">🎮</div>
+        <h3>Listo para el análisis</h3>
+        <p class="placeholder">Revisa los datos de tu equipo, busca cualquier juego y pulsa <b>Analizar mi PC y calcular FPS</b>.</p>
+      </div>
     </section>
 
   </div>
 
-  <p class="foot">Los puntajes de hardware son estimaciones relativas, no benchmarks exactos.</p>
+  <p class="foot">Gaming Setup Assistant · Las estimaciones de FPS y cuellos de botella se calculan mediante benchmark relativo de CPU/GPU y requisitos oficiales del título.</p>
 </main>
 
-<script src="app.js"></script>
+<script src="App.js"></script>
 </body>
 </html>
