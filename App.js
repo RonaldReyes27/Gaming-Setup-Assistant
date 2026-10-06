@@ -1,7 +1,7 @@
 'use strict';
 /* ==========================================================
    Gaming Setup Assistant · Lógica Principal
-   - Detección de Hardware Local (WebGL, Threads, RAM)
+   - Detección de Hardware Local (WebGL, Threads, RAM, CPU/GPU)
    - Autocompletado de Juegos en Tiempo Real (Steam / RAWG API)
    - Base de Datos y Parser de Benchmarks (300+ GPUs, CPUs Intel/AMD)
    - Motor de Cálculo de FPS (1080p Low/High, 1440p, 4K)
@@ -65,7 +65,7 @@ const BACKUP_GAMES = [
   { id: 'cs2', name: 'Counter-Strike 2', image: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg', minimum: 'Processor: Core i5 750 or FX 6300 Memory: 8 GB RAM Graphics: GTX 660 or Radeon HD 7850', recommended: 'Processor: Core i7 7700K or Ryzen 5 2600 Memory: 16 GB RAM Graphics: GTX 1060 or RX 580' }
 ];
 
-/* ---------- 2. DETECCION DE HARDWARE ---------- */
+/* ---------- 2. DETECCION DE HARDWARE AUTOMÁTICA ---------- */
 
 function detectGpuName() {
   try {
@@ -92,9 +92,41 @@ function detectGpuName() {
   }
 }
 
+function detectCpuName() {
+  // 1. Verificar si la información de renderizado de WebGL incluye el string de CPU
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (gl) {
+      const info = gl.getExtension('WEBGL_debug_renderer_info');
+      if (info) {
+        const raw = gl.getParameter(info.UNMASKED_RENDERER_WEBGL) || '';
+        const matchIntel = raw.match(/Core\(TM\)\s*i[3579]-?\d{4,5}[A-Z]*/i);
+        const matchRyzen = raw.match(/Ryzen\s*[3579]\s*\d{4}[A-Z]*/i);
+        if (matchIntel) return matchIntel[0];
+        if (matchRyzen) return matchRyzen[0];
+      }
+    }
+  } catch (e) {}
+
+  // 2. Mapear automáticamente según los hilos lógicos del navegador
+  const threads = navigator.hardwareConcurrency;
+  if (!threads) return 'Intel Core i5 / AMD Ryzen 5';
+
+  if (threads >= 32) return 'AMD Ryzen 9 7950X / Intel Core i9-14900K';
+  if (threads >= 24) return 'Intel Core i9-13900K / AMD Ryzen 9 5900X';
+  if (threads >= 16) return 'AMD Ryzen 7 5800X / Intel Core i7-12700F';
+  if (threads >= 12) return 'AMD Ryzen 5 5600X / Intel Core i5-12400F';
+  if (threads >= 8) return 'Intel Core i7-10700K / AMD Ryzen 7 3700X';
+  if (threads >= 6) return 'Intel Core i5-9400F / AMD Ryzen 5 2600';
+  if (threads >= 4) return 'Intel Core i3-10100 / AMD Ryzen 3 3200G';
+  return 'Intel Core / AMD Ryzen';
+}
+
 function detectHardware() {
   return {
     gpu: detectGpuName(),
+    cpu: detectCpuName(),
     threads: navigator.hardwareConcurrency || null,
     ram: navigator.deviceMemory || null
   };
@@ -556,10 +588,12 @@ function setupAutocomplete() {
 function fillHardwareForm() {
   const hw = detectHardware();
   if (hw.gpu) $('gpu').value = hw.gpu;
+  if (hw.cpu) $('cpu').value = hw.cpu;
   if (hw.ram) $('ram').value = hw.ram;
 
   const statusText = [
-    'GPU detectada: ' + (hw.gpu || 'No disponible'),
+    'GPU: ' + (hw.gpu || 'No disponible'),
+    'CPU: ' + (hw.cpu || 'No disponible'),
     'Hilos CPU: ' + (hw.threads || 'No disponible'),
     'RAM: ' + (hw.ram ? hw.ram + ' GB' : 'No reportada')
   ].join(' · ');
