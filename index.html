@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaming Setup Assistant</title>
+<!-- Regla de la clase: 2 fuentes (títulos: Space Grotesk, cuerpo: Inter) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Marca arriba a la izquierda (lo primero que lee el ojo) -->
+<header class="nav">
+  <div class="container nav-inner">
+    <span class="brand"><span class="dot"></span>Gaming Setup Assistant</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <p class="kicker">🖥️ Compatibilidad de juegos</p>
+    <h1>¿Tu PC puede correr <em>este juego</em>?</h1>
+    <p class="lead">La app detecta tu equipo, consulta los requisitos oficiales del juego y los compara.</p>
+  </section>
+
+  <!-- Retícula de 12 columnas: formulario (5) + resultado (7) -->
+  <div class="grid">
+
+    <form class="card form" id="form" novalidate>
+      <h2>Tu equipo</h2>
+      <!-- Aquí JavaScript escribe lo que detectó del navegador -->
+      <p class="detected" id="detected">Detectando tu equipo…</p>
+
+      <label for="gpu">GPU (detectada automáticamente)</label>
+      <input id="gpu" type="text" placeholder="Ej: RTX 3050 Ti" autocomplete="off">
+      <p class="hint">Si tienes tarjeta dedicada y aparece la integrada, corrígela.</p>
+
+      <label for="cpu">CPU (escríbela: el navegador no puede leerla)</label>
+      <input id="cpu" type="text" placeholder="Ej: Ryzen 5 5600H" autocomplete="off">
+
+      <label for="ram">RAM en GB (el navegador reporta máximo 8)</label>
+      <input id="ram" type="number" min="1" max="256" placeholder="Ej: 16">
+
+      <label for="game">Juego</label>
+      <input id="game" type="text" placeholder="Ej: Fortnite" autocomplete="off">
+
+      <label for="apikey">Clave de API de RAWG (gratis en rawg.io/apidocs)</label>
+      <input id="apikey" type="password" placeholder="Pega tu clave aquí" autocomplete="off">
+
+      <button class="btn" type="submit" id="go">Analizar mi PC</button>
+      <button class="btn btn-ghost" type="button" id="redetect">Detectar mi PC de nuevo</button>
+    </form>
+
+    <!-- aria-live: los lectores de pantalla anuncian el resultado -->
+    <section class="card result" id="result" aria-live="polite">
+      <p class="placeholder">Revisa los datos de tu equipo, escribe un juego y pulsa <b>Analizar mi PC</b>.</p>
+    </section>
+
+  </div>
+
+  <p class="foot">Los puntajes de hardware son estimaciones relativas, no benchmarks exactos.</p>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

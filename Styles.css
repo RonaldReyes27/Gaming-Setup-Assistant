@@ -1,0 +1,115 @@
+/* ==========================================================
+   Gaming Setup Assistant · estilos
+   ORDEN DEL ARCHIVO (de lo general a lo específico):
+     1. Variables        4. Navegación y hero
+     2. Base             5. Tarjetas y formulario
+     3. Layout           6. Resultado
+                         7. Responsive
+   Reglas de la Clase 03 aplicadas:
+   - Espaciado de 8 puntos (--s1 … --s7)
+   - Escala tipográfica x1.25 desde 16px
+   - 2 fuentes: Space Grotesk (títulos) + Inter (cuerpo)
+   - Color 60-30-10 y contraste mínimo 4.5:1
+   ========================================================== */
+
+/* ---------- 1. VARIABLES ---------- */
+:root{
+  /* 60% neutro (fondo) */
+  --bg:#10132E;
+  /* 30% secundario (tarjetas) */
+  --surface:#1A1F45; --surface-2:#242A5C;
+  /* texto */
+  --ink:#EDEEF7; --muted:#9DA2C4;
+  /* 10% acento: solo botón y detalles clave */
+  --cyan:#35D6C0;
+  /* estados: siempre con icono + texto */
+  --ok:#57E389; --warn:#F6B44D; --bad:#FF7B7B;
+  --line:rgba(255,255,255,.09);
+  /* espaciado (escala de 8) */
+  --s1:4px; --s2:8px; --s3:16px; --s4:24px; --s5:32px; --s6:48px;
+  /* tamaños de texto (x1.25) */
+  --fs-s:.8rem; --fs-0:1rem; --fs-1:1.25rem; --fs-2:1.5625rem; --fs-5:3.052rem;
+}
+
+/* ---------- 2. BASE ---------- */
+*{box-sizing:border-box}
+body{
+  margin:0; color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+  font-size:var(--fs-0); line-height:1.55;
+  background:
+    radial-gradient(1000px 600px at 85% -10%,rgba(53,214,192,.10),transparent 60%),
+    radial-gradient(900px 600px at -5% 20%,rgba(183,168,255,.08),transparent 55%),
+    var(--bg);
+}
+h1,h2,h3{font-family:'Space Grotesk','Inter',sans-serif; letter-spacing:-.015em; line-height:1.1; margin:0}
+:focus-visible{outline:2px solid var(--cyan); outline-offset:3px; border-radius:6px}
+
+/* ---------- 3. LAYOUT ---------- */
+.container{max-width:1000px; margin:0 auto; padding:0 var(--s4)}
+/* retícula de 12 columnas */
+.grid{display:grid; grid-template-columns:repeat(12,1fr); gap:var(--s4); padding-bottom:var(--s5)}
+.form{grid-column:span 5}
+.result{grid-column:span 7}
+
+/* ---------- 4. NAVEGACIÓN Y HERO ---------- */
+.nav{border-bottom:1px solid var(--line); background:rgba(16,19,46,.85)}
+.nav-inner{padding-top:var(--s3); padding-bottom:var(--s3)}
+.brand{display:flex; align-items:center; gap:var(--s2); font-family:'Space Grotesk'; font-weight:700}
+.dot{width:10px; height:10px; border-radius:50%; background:var(--cyan); box-shadow:0 0 0 4px rgba(53,214,192,.16)}
+
+.hero{padding:var(--s6) 0 var(--s5)}
+.kicker{margin:0 0 var(--s2); font-size:var(--fs-s); font-weight:600; color:var(--cyan)}
+.hero h1{font-size:clamp(2rem,6vw,var(--fs-5)); font-weight:700; max-width:16ch; margin-bottom:var(--s3)}
+.hero h1 em{font-style:normal; color:var(--cyan)}
+.lead{margin:0; font-size:var(--fs-1); color:var(--muted); max-width:60ch}
+
+/* ---------- 5. TARJETAS Y FORMULARIO ---------- */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:var(--s4); box-shadow:0 24px 60px -30px rgba(0,0,0,.7)}
+.card h2{font-size:var(--fs-2); margin-bottom:var(--s3)}
+
+label{display:block; margin:var(--s3) 0 var(--s2); font-size:var(--fs-s); font-weight:600; color:var(--muted)}
+input{width:100%; padding:var(--s3); border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font:inherit}
+input::placeholder{color:var(--muted)}
+.hint{margin:var(--s2) 0 0; font-size:var(--fs-s); color:var(--muted)}
+.detected{margin:0; padding:var(--s3); border-radius:8px; background:var(--bg); font-size:var(--fs-s); color:var(--muted)}
+
+/* botón principal = único acento fuerte (texto oscuro sobre cian) */
+.btn{width:100%; margin-top:var(--s4); padding:var(--s3); border:none; border-radius:8px; cursor:pointer;
+  background:var(--cyan); color:var(--bg); font:inherit; font-weight:700; transition:transform .15s, filter .15s}
+.btn:hover{filter:brightness(1.1); transform:translateY(-1px)}
+.btn:disabled{background:var(--surface-2); color:var(--muted); cursor:wait; transform:none}
+/* botón secundario */
+.btn-ghost{margin-top:var(--s2); background:transparent; color:var(--ink); border:1px solid var(--line)}
+
+/* ---------- 6. RESULTADO ---------- */
+.placeholder{margin:0; color:var(--muted)}
+.msg{margin:0; color:var(--bad)}
+.source{font-size:var(--fs-s); color:var(--muted)}
+
+.game-head{display:flex; align-items:center; gap:var(--s3); margin-bottom:var(--s4)}
+.game-head img{width:96px; height:56px; object-fit:cover; border-radius:8px}
+.game-head h2{margin:0; text-transform:uppercase; letter-spacing:.04em}
+
+.rows{display:grid; gap:var(--s3); margin-bottom:var(--s4)}
+.row{display:grid; grid-template-columns:48px 1fr; gap:var(--s3); padding:var(--s3); border-radius:8px; background:var(--bg)}
+.row .icon{font-size:var(--fs-2); line-height:1}
+.row h3{font-family:'Inter'; font-size:var(--fs-0); font-weight:700}
+.row p{margin:var(--s1) 0 0; font-size:var(--fs-s); color:var(--muted)}
+.st-ok{color:var(--ok)} .st-min{color:var(--warn)} .st-bad{color:var(--bad)} .st-unk{color:var(--muted)}
+
+.perf-label{display:flex; justify-content:space-between; font-weight:600; margin-bottom:var(--s2)}
+.bar{height:12px; border-radius:8px; background:var(--surface-2); overflow:hidden}
+.bar span{display:block; height:100%; border-radius:8px; transition:width .5s}
+.bar .ok{background:var(--ok)} .bar .min{background:var(--warn)} .bar .bad{background:var(--bad)}
+
+.facts{display:grid; grid-template-columns:1fr 1fr; gap:var(--s3); margin-top:var(--s4)}
+.fact{padding:var(--s3); border-radius:8px; background:var(--bg)}
+.fact span{display:block; font-size:var(--fs-s); color:var(--muted)}
+.fact b{font-family:'Space Grotesk'; font-size:var(--fs-2)}
+
+.foot{padding-bottom:var(--s6); font-size:var(--fs-s); color:var(--muted)}
+
+/* ---------- 7. RESPONSIVE ---------- */
+@media (max-width:800px){
+  .form, .result{grid-column:span 12}
+}
